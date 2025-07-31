@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2025-07-31
 
 ### Added
-- Initial release of mkdocs-llms-txt plugin
+- Initial release of mkdocs-llmstxt-md plugin
 - Generate `llms.txt` index file with markdown URLs for LLM consumption
 - Generate `llms-full.txt` with complete documentation in single file
 - Serve original markdown files at `.md` URLs alongside HTML versions
@@ -34,4 +34,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `copy_button_style`: Customizable button styling
 - `markdown_description`: Optional description for llms.txt header
 
-[0.1.0]: https://github.com/noklam/mkdocs-llms-txt/releases/tag/v0.1.0
+[0.1.0]: https://github.com/noklam/mkdocs-llmstxt-md/releases/tag/v0.1.0

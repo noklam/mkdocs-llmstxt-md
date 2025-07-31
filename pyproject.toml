@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mkdocs-llms-txt"
+name = "mkdocs-llmstxt-md"
 version = "0.1.0"
 description = "MkDocs plugin for LLM-friendly documentation with direct markdown serving"
 authors = [{name = "Nok Lam Chan", email = "mediumnok@gmail.com"}]
@@ -30,9 +30,9 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/noklam/mkdocs-llms-txt"
-"Bug Reports" = "https://github.com/noklam/mkdocs-llms-txt/issues"
-"Source" = "https://github.com/noklam/mkdocs-llms-txt"
+"Homepage" = "https://github.com/noklam/mkdocs-llmstxt-md"
+"Bug Reports" = "https://github.com/noklam/mkdocs-llmstxt-md/issues"
+"Source" = "https://github.com/noklam/mkdocs-llmstxt-md"
 
 [project.entry-points."mkdocs.plugins"]
 llms-txt = "mkdocs_llms_txt.plugin:LLMsTxtPlugin"

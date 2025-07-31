@@ -44,7 +44,7 @@ gh workflow run release.yml -f upload_to_pypi=false
 
 ```bash
 # Test installation from TestPyPI
-pip install -i https://test.pypi.org/simple/ mkdocs-llms-txt==0.1.0
+pip install -i https://test.pypi.org/simple/ mkdocs-llmstxt-md==0.1.0
 
 # Quick functionality test
 mkdir test-install && cd test-install
@@ -124,7 +124,7 @@ git tag v0.1.0 && git push origin v0.1.0
 - [ ] **Production Release**
   - [ ] Create and push Git tag: `git tag v0.1.0 && git push origin v0.1.0`
   - [ ] Verify PyPI release completed successfully
-  - [ ] Test installation from PyPI: `pip install mkdocs-llms-txt`
+  - [ ] Test installation from PyPI: `pip install mkdocs-llmstxt-md`
   - [ ] Update GitHub release notes (created automatically)
 
 - [ ] **Post-Release**

@@ -36,7 +36,7 @@ jobs:
     - name: Test plugin installation
       run: |
         pdm install -e .
-        pdm list | grep mkdocs-llms-txt
+        pdm list | grep mkdocs-llmstxt-md
 
     - name: Test with example site
       run: |
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: testpypi
-      url: https://test.pypi.org/p/mkdocs-llms-txt
+      url: https://test.pypi.org/p/mkdocs-llmstxt-md
 
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/mkdocs-llms-txt
+      url: https://pypi.org/p/mkdocs-llmstxt-md
 
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing

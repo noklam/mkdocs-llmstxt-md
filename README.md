@@ -1,4 +1,4 @@
-# mkdocs-llms-txt
+# mkdocs-llmstxt-md
 
 MkDocs plugin for LLM-friendly documentation that provides:
 
@@ -18,9 +18,9 @@ This plugin is inspired by `mkdocs-llmstxt`, the key difference is that `mkdocs-
 ## Installation
 
 ```bash
-uv add mkdocs-llms-txt
+uv add mkdocs-llmstxt-md
 # or with pip
-pip install mkdocs-llms-txt
+pip install mkdocs-llmstxt-md
 ```
 
 
@@ -59,7 +59,7 @@ plugins:
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd mkdocs-llms-txt
+   cd mkdocs-llmstxt-md
    ```
 
 2. Install in development mode:
@@ -71,9 +71,9 @@ plugins:
 
 3. Verify installation:
    ```bash
-   uv pip list | grep mkdocs-llms-txt
+   uv pip list | grep mkdocs-llmstxt-md
    # or with pip
-   pip list | grep mkdocs-llms-txt
+   pip list | grep mkdocs-llmstxt-md
    ```
 
 ### Testing with the Test Site
