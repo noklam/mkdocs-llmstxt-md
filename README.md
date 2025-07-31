@@ -18,7 +18,7 @@ This plugin is inspired by `mkdocs-llmstxt`, the key difference is that `mkdocs-
 ## Installation
 
 ```bash
-uv add mkdocs-llmstxt-md
+uv pip install mkdocs-llmstxt-md
 # or with pip
 pip install mkdocs-llmstxt-md
 ```
