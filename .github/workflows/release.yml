@@ -20,28 +20,32 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up PDM
-      uses: pdm-project/setup-pdm@v4
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
       with:
-        python-version: "3.11"
+        version: "latest"
+
+    - name: Set up Python
+      run: uv python install 3.11
 
     - name: Install dependencies
-      run: pdm install
+      run: |
+        uv add ruff
+        uv pip install -e .
 
     - name: Lint with ruff
       run: |
-        pdm run ruff check
-        pdm run ruff format --check
+        uv run ruff check
+        uv run ruff format --check
 
     - name: Test plugin installation
       run: |
-        pdm install -e .
-        pdm list | grep mkdocs-llmstxt-md
+        uv pip list | grep mkdocs-llmstxt-md
 
     - name: Test with example site
       run: |
         cd test-site
-        pdm run mkdocs build
+        uv run mkdocs build
         # Verify expected files exist
         test -f site/llms.txt
         test -f site/llms-full.txt
@@ -49,7 +53,7 @@ jobs:
         test -f site/quickstart/index.md
 
     - name: Build package
-      run: pdm build
+      run: uv build
 
     - name: Store the distribution packages
       uses: actions/upload-artifact@v4
