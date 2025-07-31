@@ -4,7 +4,7 @@ MkDocs plugin for LLM-friendly documentation that provides:
 
 1. **Direct markdown serving** - Access original markdown at `page.md` URLs
 2. **llms.txt generation** - Concise index file for LLM context
-3. **llms-full.txt generation** - Complete documentation in single file  
+3. **llms-full.txt generation** - Complete documentation in single file
 4. **Copy-to-markdown button** - Easy copying of source markdown
 
 ## Features
@@ -14,6 +14,7 @@ MkDocs plugin for LLM-friendly documentation that provides:
 - 📋 **Copy button** - One-click markdown copying for developers
 - 🔗 **Dual URLs** - Both human-readable HTML and LLM-friendly markdown
 
+This plugin is inspired by `mkdocs-llmstxt`, the key difference is that `mkdocs-llmstxt` take the parsing HTML approach which can be used with injected HTML. This plugin focus on the raw markdown approach, which makes things simpler if you only need to work with markdown content.
 ## Installation
 
 ```bash
@@ -21,6 +22,7 @@ uv add mkdocs-llms-txt
 # or with pip
 pip install mkdocs-llms-txt
 ```
+
 
 ## Usage
 
@@ -41,7 +43,7 @@ plugins:
 
 - `sections`: Dict of section names to file patterns
 - `enable_markdown_urls`: Enable .md URL serving (default: true)
-- `enable_llms_txt`: Generate llms.txt (default: true)  
+- `enable_llms_txt`: Generate llms.txt (default: true)
 - `enable_llms_full`: Generate llms-full.txt (default: true)
 - `enable_copy_button`: Add copy button to pages (default: true)
 

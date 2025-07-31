@@ -1,0 +1,41 @@
+site_name: "Test Documentation"
+site_description: "Test site for LLMsTxt plugin"
+site_url: "http://localhost:8000"
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - quickstart.md
+    - installation.md
+  - API Reference:
+    - api/overview.md
+    - api/functions.md
+  - Advanced:
+    - advanced/configuration.md
+
+theme:
+  name: mkdocs
+
+plugins:
+  - llms-txt:
+      sections:
+        "Getting Started":
+          - index.md: "Welcome to our documentation"
+          - quickstart.md: "Quick start guide"
+          - installation.md: "Installation instructions"
+        "API Reference":
+          - api/*.md
+        "Advanced Topics":
+          - advanced/*.md
+      markdown_description: "Complete documentation for the test project with API reference and advanced topics."
+      # Copy button configuration examples (commented out to show defaults)
+      # copy_button_text: "📋 Copy MD"
+      # copy_button_position:
+      #   top: "80px"      # Distance from top
+      #   right: "20px"    # Distance from right
+      #   z_index: "1100"  # Stack order
+      # copy_button_style:
+      #   background: "#28a745"     # Green button
+      #   color: "white"
+      #   border_radius: "8px"      # More rounded
+      #   padding: "10px 16px"      # Bigger button

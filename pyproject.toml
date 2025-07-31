@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mkdocs-llms-txt"
+version = "0.1.0"
+description = "MkDocs plugin for LLM-friendly documentation with direct markdown serving"
+authors = [{name = "Nok Lam Chan", email = "mediumnok@gmail.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["mkdocs", "plugin", "llm", "documentation", "markdown", "ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+]
+dependencies = [
+    "mkdocs>=1.4.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/noklam/mkdocs-llms-txt"
+"Bug Reports" = "https://github.com/noklam/mkdocs-llms-txt/issues"
+"Source" = "https://github.com/noklam/mkdocs-llms-txt"
+
+[project.entry-points."mkdocs.plugins"]
+llms-txt = "mkdocs_llms_txt.plugin:LLMsTxtPlugin"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mkdocs_llms_txt = ["templates/*", "static/*"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+extend-exclude = [
+    "test-site/",
+    "build/",
+    "dist/",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by formatter
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["mkdocs_llms_txt"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
