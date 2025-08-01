@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mkdocs-llmstxt-md"
-version = "0.1.0"
+version = "0.2.0"
 description = "MkDocs plugin for LLM-friendly documentation with direct markdown serving"
 authors = [{ name = "Nok Lam Chan", email = "mediumnok@gmail.com" }]
 license = { text = "MIT" }
@@ -32,7 +32,7 @@ dependencies = ["mkdocs>=1.4.0"]
 "Source" = "https://github.com/noklam/mkdocs-llmstxt-md"
 
 [project.entry-points."mkdocs.plugins"]
-llms-txt = "mkdocs_llmstxt_md.plugin:LlmsTxtPlugin"
+llmstxt-md = "mkdocs_llmstxt_md.plugin:LlmsTxtPlugin"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
