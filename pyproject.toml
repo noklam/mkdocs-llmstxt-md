@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "mkdocs-llmstxt-md"
 version = "0.1.0"
 description = "MkDocs plugin for LLM-friendly documentation with direct markdown serving"
-authors = [{name = "Nok Lam Chan", email = "mediumnok@gmail.com"}]
-license = {text = "MIT"}
+authors = [{ name = "Nok Lam Chan", email = "mediumnok@gmail.com" }]
+license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["mkdocs", "plugin", "llm", "documentation", "markdown", "ai"]
@@ -25,9 +25,7 @@ classifiers = [
     "Topic :: Documentation",
     "Topic :: Software Development :: Documentation",
 ]
-dependencies = [
-    "mkdocs>=1.4.0",
-]
+dependencies = ["mkdocs>=1.4.0"]
 
 [project.urls]
 "Homepage" = "https://github.com/noklam/mkdocs-llmstxt-md"
@@ -35,10 +33,10 @@ dependencies = [
 "Source" = "https://github.com/noklam/mkdocs-llmstxt-md"
 
 [project.entry-points."mkdocs.plugins"]
-llms-txt = "mkdocs_llms_txt.plugin:LLMsTxtPlugin"
+llms-txt = "mkdocs_llms_txt.plugin:LlmsTxtPlugin"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -49,24 +47,20 @@ mkdocs_llms_txt = ["templates/*", "static/*"]
 [tool.ruff]
 target-version = "py38"
 line-length = 88
-extend-exclude = [
-    "test-site/",
-    "build/",
-    "dist/",
-]
+extend-exclude = ["test-site/", "build/", "dist/"]
 
 [tool.ruff.lint]
 select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # isort
-    "B",   # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "UP",  # pyupgrade
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
 ]
 ignore = [
-    "E501",  # line too long, handled by formatter
+    "E501", # line too long, handled by formatter
 ]
 
 [tool.ruff.lint.isort]

@@ -14,7 +14,7 @@ from mkdocs.structure.pages import Page
 from .config import LLMsTxtConfig
 
 
-class LLMsTxtPlugin(BasePlugin[LLMsTxtConfig]):
+class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
     """MkDocs plugin for LLM-friendly documentation."""
 
     def __init__(self):

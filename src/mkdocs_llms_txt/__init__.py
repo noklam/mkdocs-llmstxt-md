@@ -2,6 +2,6 @@
 
 __version__ = "0.1.0"
 
-from .plugin import LLMsTxtPlugin
+from .plugin import LlmsTxtPlugin
 
-__all__ = ["LLMsTxtPlugin"]
+__all__ = ["LlmsTxtPlugin"]

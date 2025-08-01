@@ -2,7 +2,7 @@
 
 Detailed reference for the plugin's internal functions and methods.
 
-## LLMsTxtPlugin Class
+## LlmsTxtPlugin Class
 
 Main plugin class that handles all functionality.
 
