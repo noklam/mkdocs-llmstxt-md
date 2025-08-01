@@ -128,7 +128,7 @@ Currently manual testing via the test site. Future versions will include automat
 
 ### Making Changes
 
-1. Modify code in `src/mkdocs_llms_txt/`
+1. Modify code in `src/mkdocs_llmstxt_md/`
 2. Test changes: `cd test-site && mkdocs build`
 3. Validate all features work as expected
 4. Check generated files in `test-site/site/`

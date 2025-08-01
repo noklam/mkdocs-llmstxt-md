@@ -41,7 +41,7 @@ package-dir = { "" = "src" }
 where = ["src"]
 
 [tool.setuptools.package-data]
-mkdocs_llms_txt = ["templates/*", "static/*"]
+mkdocs_llmstxt_md = ["templates/*", "static/*"]
 
 [tool.ruff]
 target-version = "py38"
@@ -63,7 +63,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["mkdocs_llms_txt"]
+known-first-party = ["mkdocs_llmstxt_md"]
 
 [tool.ruff.format]
 quote-style = "double"

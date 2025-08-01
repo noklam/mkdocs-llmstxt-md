@@ -5,19 +5,19 @@ site_url: "http://localhost:8000"
 nav:
   - Home: index.md
   - Getting Started:
-    - quickstart.md
-    - installation.md
+      - quickstart.md
+      - installation.md
   - API Reference:
-    - api/overview.md
-    - api/functions.md
+      - api/overview.md
+      - api/functions.md
   - Advanced:
-    - advanced/configuration.md
+      - advanced/configuration.md
 
 theme:
   name: mkdocs
 
 plugins:
-  - llms-txt:
+  - llmstxt-md:
       sections:
         "Getting Started":
           - index.md: "Welcome to our documentation"
