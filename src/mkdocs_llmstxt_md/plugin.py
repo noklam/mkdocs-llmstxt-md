@@ -32,7 +32,7 @@ class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
 
         # Configure MIME type for .md files so they display in browser instead of downloading
         if self.config.enable_markdown_urls:
-            mimetypes.add_type("text/plain", ".md")
+            mimetypes.add_type("text/markdown;charset=utf-8", ".md")
 
         self.mkdocs_config = config
         self.pages_data = {section: [] for section in self.config.sections.keys()}
