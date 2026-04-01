@@ -30,7 +30,7 @@ Add to your `mkdocs.yml`:
 
 ```yaml
 plugins:
-  - llms-txt:
+  - llmstxt-md:
       sections:
         "Getting Started":
           - index.md: "Introduction to the project"
