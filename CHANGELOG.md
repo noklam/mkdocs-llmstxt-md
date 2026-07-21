@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Upcoming
+
+### Non-breaking
+- `sections` is now optional: leaving it empty automatically derives `llms.txt`/`llms-full.txt` grouping from your `mkdocs.yml` `nav`, so pages added to `nav` no longer need a matching manual entry. Providing a non-empty `sections` still takes full manual control, exactly as before — `nav` is ignored in that case.
+
 ## [0.1.0] - 2025-07-31
 
 ### Added
