@@ -33,7 +33,7 @@ plugins:
   - llmstxt-md
 ```
 
-To customize titles, descriptions, or grouping for specific pages, add `sections` — it overrides nav-derivation only for the pages it lists; everything else still comes from `nav`:
+To customize titles, descriptions, or grouping for specific pages, add `sections` — once you provide any `sections`, only the pages you list are included and `nav` is no longer consulted:
 
 ```yaml
 plugins:
@@ -46,7 +46,7 @@ plugins:
 
 ## Configuration
 
-- `sections`: Optional dict of section names to file patterns, for custom titles/grouping/descriptions. Any page in `nav` that isn't covered by `sections` is included automatically, grouped by its `nav` structure (a `nav` `Section` becomes a heading; a top-level page not inside any section becomes its own heading, named after the page).
+- `sections`: Optional dict of section names to file patterns. Leave it empty/omitted to automatically mirror your `nav` structure (a nav `Section` becomes a heading; a top-level page not inside any section becomes its own heading, named after the page). Provide it to take full manual control over titles/grouping/descriptions — when non-empty, only the pages you list are included and `nav` is ignored.
 - `enable_markdown_urls`: Enable .md URL serving (default: true)
 - `enable_llms_txt`: Generate llms.txt (default: true)
 - `enable_llms_full`: Generate llms-full.txt (default: true)
