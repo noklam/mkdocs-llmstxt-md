@@ -9,6 +9,7 @@ from urllib.parse import urljoin
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import Files
+from mkdocs.structure.nav import Navigation, Section
 from mkdocs.structure.pages import Page
 
 from .config import LLMsTxtConfig
@@ -22,6 +23,8 @@ class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
         self.mkdocs_config: MkDocsConfig = None
         self.pages_data: Dict[str, List[Dict[str, Any]]] = {}
         self.source_files: Dict[str, str] = {}
+        self.singleton_src_uris: List[str] = []
+        self.singleton_pages: Dict[str, Dict[str, Any]] = {}
 
     def on_config(self, config: MkDocsConfig) -> MkDocsConfig:
         """Store MkDocs configuration and validate settings."""
@@ -36,6 +39,8 @@ class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
 
         self.mkdocs_config = config
         self.pages_data = {section: [] for section in self.config.sections.keys()}
+        self.singleton_src_uris = []
+        self.singleton_pages = {}
         return config
 
     def on_files(self, files: Files, *, config: MkDocsConfig) -> Files:
@@ -74,6 +79,51 @@ class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
 
         return files
 
+    def _flatten_section_pages(self, section: Section) -> List[Page]:
+        """Recursively collect all Page leaves nested under a nav Section."""
+        pages: List[Page] = []
+        for child in section.children:
+            if isinstance(child, Section):
+                pages.extend(self._flatten_section_pages(child))
+            elif isinstance(child, Page):
+                pages.append(child)
+            # Link children are skipped: no source file to render.
+        return pages
+
+    def on_nav(
+        self, nav: Navigation, *, config: MkDocsConfig, files: Files
+    ) -> Navigation:
+        """Derive sections/pages from nav for any page not already covered
+        by the explicit `sections` config."""
+        covered_src_uris = {
+            page_data["src_uri"]
+            for pages in self.pages_data.values()
+            for page_data in pages
+        }
+
+        for item in nav.items:
+            if isinstance(item, Section):
+                new_leaves = [
+                    page
+                    for page in self._flatten_section_pages(item)
+                    if page.file.src_uri not in covered_src_uris
+                ]
+                if not new_leaves:
+                    continue
+                section_pages = self.pages_data.setdefault(item.title, [])
+                for page in new_leaves:
+                    section_pages.append(
+                        {"src_uri": page.file.src_uri, "description": ""}
+                    )
+                    covered_src_uris.add(page.file.src_uri)
+            elif isinstance(item, Page):
+                if item.file.src_uri not in covered_src_uris:
+                    self.singleton_src_uris.append(item.file.src_uri)
+                    covered_src_uris.add(item.file.src_uri)
+            # Link items are skipped: no source file to render.
+
+        return nav
+
     def on_page_markdown(
         self, markdown: str, *, page: Page, config: MkDocsConfig, files: Files
     ) -> str:
@@ -94,6 +144,18 @@ class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
                         }
                     )
                     break
+
+        # Check if this page is a nav-derived singleton section
+        if src_uri in self.singleton_src_uris:
+            self.source_files[src_uri] = markdown
+            self.singleton_pages[src_uri] = {
+                "src_uri": src_uri,
+                "description": "",
+                "title": page.title or src_uri,
+                "markdown": markdown,
+                "dest_path": page.file.dest_path,
+                "dest_uri": page.file.dest_uri,
+            }
 
         return markdown
 
@@ -132,20 +194,25 @@ class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
         if self.config.enable_llms_full:
             self._generate_llms_full_txt(site_dir, config)
 
+    def _write_markdown_file(self, site_dir: Path, page_data: Dict[str, Any]) -> None:
+        """Write a single page's markdown content to its .md URL location."""
+        if "markdown" not in page_data or "dest_path" not in page_data:
+            return
+
+        html_path = Path(page_data["dest_path"])
+        md_path = site_dir / html_path.with_suffix(".md")
+
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.write_text(page_data["markdown"], encoding="utf-8")
+
     def _generate_markdown_files(self, site_dir: Path) -> None:
         """Generate individual .md files for each page."""
         for section_pages in self.pages_data.values():
             for page_data in section_pages:
-                if "markdown" in page_data and "dest_path" in page_data:
-                    # Create .md version alongside HTML
-                    html_path = Path(page_data["dest_path"])
-                    md_path = site_dir / html_path.with_suffix(".md")
+                self._write_markdown_file(site_dir, page_data)
 
-                    # Ensure directory exists
-                    md_path.parent.mkdir(parents=True, exist_ok=True)
-
-                    # Write markdown content
-                    md_path.write_text(page_data["markdown"], encoding="utf-8")
+        for page_data in self.singleton_pages.values():
+            self._write_markdown_file(site_dir, page_data)
 
     def _generate_llms_txt(self, site_dir: Path, config: MkDocsConfig) -> None:
         """Generate the llms.txt index file."""
@@ -161,27 +228,36 @@ class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
 
         base_url = config.site_url.rstrip("/")
 
+        def format_page_link(page_data: Dict[str, Any]) -> str:
+            title = page_data.get("title", page_data["src_uri"])
+            dest_uri = page_data.get("dest_uri", "")
+            description = page_data.get("description", "")
+
+            md_url = urljoin(
+                base_url + "/",
+                dest_uri.replace(".html", ".md")
+                if dest_uri.endswith(".html")
+                else dest_uri + ".md",
+            )
+
+            desc_text = f": {description}" if description else ""
+            return f"- [{title}]({md_url}){desc_text}\n"
+
         for section_name, pages in self.pages_data.items():
             if pages:  # Only add section if it has pages
                 content += f"## {section_name}\n\n"
-
                 for page_data in pages:
-                    title = page_data.get("title", page_data["src_uri"])
-                    dest_uri = page_data.get("dest_uri", "")
-                    description = page_data.get("description", "")
-
-                    # Create markdown URL
-                    md_url = urljoin(
-                        base_url + "/",
-                        dest_uri.replace(".html", ".md")
-                        if dest_uri.endswith(".html")
-                        else dest_uri + ".md",
-                    )
-
-                    desc_text = f": {description}" if description else ""
-                    content += f"- [{title}]({md_url}){desc_text}\n"
-
+                    content += format_page_link(page_data)
                 content += "\n"
+
+        for src_uri in self.singleton_src_uris:
+            page_data = self.singleton_pages.get(src_uri)
+            if not page_data:
+                continue
+
+            content += f"## {page_data['title']}\n\n"
+            content += format_page_link(page_data)
+            content += "\n"
 
         llms_txt_path.write_text(content.strip(), encoding="utf-8")
 
@@ -206,6 +282,14 @@ class LlmsTxtPlugin(BasePlugin[LLMsTxtConfig]):
                         title = page_data.get("title", page_data["src_uri"])
                         content += f"## {title}\n\n"
                         content += f"{page_data['markdown']}\n\n"
+
+        for src_uri in self.singleton_src_uris:
+            page_data = self.singleton_pages.get(src_uri)
+            if not page_data or "markdown" not in page_data:
+                continue
+
+            content += f"# {page_data['title']}\n\n"
+            content += f"{page_data['markdown']}\n\n"
 
         llms_full_path.write_text(content.strip(), encoding="utf-8")
 
