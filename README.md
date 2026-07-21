@@ -26,7 +26,14 @@ pip install mkdocs-llmstxt-md
 
 ## Usage
 
-Add to your `mkdocs.yml`:
+Add to your `mkdocs.yml`. At its simplest, no configuration is needed — sections are derived from your `nav`:
+
+```yaml
+plugins:
+  - llmstxt-md
+```
+
+To customize titles, descriptions, or grouping for specific pages, add `sections` — once you provide any `sections`, only the pages you list are included and `nav` is no longer consulted:
 
 ```yaml
 plugins:
@@ -35,13 +42,11 @@ plugins:
         "Getting Started":
           - index.md: "Introduction to the project"
           - quickstart.md
-        "API Reference":
-          - api/*.md
 ```
 
 ## Configuration
 
-- `sections`: Dict of section names to file patterns
+- `sections`: Optional dict of section names to file patterns. Leave it empty/omitted to automatically mirror your `nav` structure (a nav `Section` becomes a heading; a top-level page not inside any section becomes its own heading, named after the page). Provide it to take full manual control over titles/grouping/descriptions — when non-empty, only the pages you list are included and `nav` is ignored.
 - `enable_markdown_urls`: Enable .md URL serving (default: true)
 - `enable_llms_txt`: Generate llms.txt (default: true)
 - `enable_llms_full`: Generate llms-full.txt (default: true)
